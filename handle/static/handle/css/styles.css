@@ -1,3 +1,16 @@
 .container{
+	padding: 30px;
+	/*background: url(../images/codegress-bg.jpg);*/
+}
+.logo{
+	width: 55px;
+}
+.handle-image{
 	
+}
+.handle-image img{
+	width: 48px;
+}
+.handle-graph img{
+	width:300px;
 }
