@@ -1,71 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>CodeGress | Code | Progress</title>
-	{%load staticfiles%}
-	{%include 'handle/base.html'%}
-</head>
-<body>
-	<div class="container">
-		<div class="page-header">
-		<ul class="list-inline">
-			<li class="handle-image">
-			<div class="dropdown">
-				<img class="dropdown-toggle" src="{%static 'handle/images/default-handle-img.png'%}" alt="Default Profile Image" data-toggle="dropdown">
-				<span class=" dropdown-toggle caret" data-toggle="dropdown"></span>
-				<ul class="dropdown-menu">
-				    <li><a href="#">Leaderboard</a></li>
-				    <li><a href="#">Profile Settings</a></li>
-				    <li><a href="#">Group Activity</a></li>
-				    <li role="presentation" class="divider"></li>
-				    <li><a href="/logout">Logout</a></li>
-			  	</ul>
-			</div>
+{%extends 'handle/base.html'%}
+{%load staticfiles%}
+{%block body%}
+<div class="container">
+	{%include 'handle/codegress_base.html'%}
+	<div>
+		<ul class="list-group col-md-2 text-center">
+			<li class="list-group-item">
+				<a href="/challenges/">Challenges</a>
+			</li>
+			<li class="list-group-item">
+				<a href="/competitions/">Competitons</a>
+			</li>
+			<li class="list-group-item">
+				<a  href="caf">Challenge a Friend</a>
 			</li>
 		</ul>
-		</div>
-		<div class="row text-center">
-			<div class="col-md-2 bg-danger">
-				<h1>Lists</h1>
-			</div>
-			<div class="col-md-7 bg-info">
-				<h1>Tabs</h1>
-			</div>
-			<div class="col-md-3 bg-success	">
-				<h1>Graphs</h1>
-			</div>
-		</div>
 	</div>
-</body>
-</html>
-
-<!-- <ul class="list-group col-md-2">
-		<li class="list-group-item">
-			<a href="#">Challenges</a>
+	<div>
+	<ul class="nav nav-pills col-md-8 text-center" data-toggle="affix">
+		<li class="col-md-3">
+			<a href="feeds">Feeds</a>
 		</li>
-		<li class="list-group-item">
-			<a href="#">Competitons</a>
+		<li class="col-md-3">
+			<a href="updates">Updates</a>
 		</li>
-		<li class="list-group-item">
-			<a class="" href="#">Challenge a Friend</a>
+		<li class="col-md-3">
+			<a href="challenges">Recent Challenges</a>
 		</li>
-</ul>
-<ul class="nav nav-tabs col-md-7" data-toggle="affix">
-	<li>
-		<a href="#">Codegress Feeds</a>
-	</li>
-	<li>
-		<a href="#">Group Updates</a>
-	</li>
-	<li>
-		<a href="#">Recent Challenges</a>
-	</li>
-</ul>
-<div class="col-md-3">
-	<p>Text and Graph goes here..</p>
-	<span class="handle-graph">
-		<img src="{%static 'handle/images/graph.svg'%}" alt="Graph">
-	</span>
+	</ul>
+	</div>
+	<div>
+		<ul class="list-group col-md-2 text-center">
+			<li class="list-group-item">
+				<a href="graphs">Graphs</a>
+			</li>
+		</ul>
+	</div>
 </div>
- -->
+{%endblock%}

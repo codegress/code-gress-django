@@ -7,6 +7,7 @@ class Registration(models.Model):
 	email = models.EmailField()
 	handle = models.CharField(max_length=20,primary_key=True)
 	password = models.CharField(max_length=20)
+	country = models.CharField(max_length=50,default=None)
 
 	def __unicode__(self):
 		return self.handle

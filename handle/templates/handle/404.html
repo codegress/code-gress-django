@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>404</title>
-	{%include 'handle/base.html'%}
-</head>
-<body>
-	<div class="container">
-		<div class="page-header">
-			<a href="/" class="btn btn-default">
-				<span class="glyphicon glyphicon-home"></span>
-			</a>
-		</div>
-		<h1 class="text-center"><q>404 Page Not Found</q></h1>
+{%extends 'handle/base.html'%}
+{%load staticfiles%}
+{%block body%}
+<div class="container">
+	<div class="page-header">
+		<a href="/" class="btn">
+			<img id="codegress-logo" src="{%static 'handle/images/codegress-logo.gif'%}" 
+			alt="codegress logo">
+		</a>
 	</div>
-</body>
-</html>
+	<h1 class="text-center"><q>404 Page Not Found</q></h1>
+</div>
+{%endblock%}

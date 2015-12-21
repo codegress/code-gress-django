@@ -1,3 +1,4 @@
 $(document).ready(function(){
-    $('[data-toggle="popover"]').popover();   
+    $(".handle-tooltip").tooltip({title: "Profile and more",placement:"top"});
+    $("#codegress-logo").tooltip({title: "codegress.io",placement:"top"});
 });

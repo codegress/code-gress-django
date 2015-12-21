@@ -1,6 +1,11 @@
+body{
+	background: url(../images/background.jpg);
+}
 .container{
-	padding: 30px;
-	/*background: url(../images/codegress-bg.jpg);*/
+
+}
+.info{
+	
 }
 .logo{
 	width: 55px;
@@ -13,4 +18,16 @@
 }
 .handle-graph img{
 	width:300px;
+}
+.cursor{
+	cursor: pointer;
+}
+#codegress-logo{
+	width:38px;
+}
+.login-btn{
+
+}
+.forgot-text{
+	padding-left: 20px;
 }

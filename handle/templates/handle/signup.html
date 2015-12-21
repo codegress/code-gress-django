@@ -1,0 +1,63 @@
+{%extends 'handle/base.html'%}
+{%load staticfiles%}
+{%block body%}
+<div class="container">
+		<div class="page-header">
+			<ul class="list-inline">
+			<li><a href="/" class="btn">
+					<img id="codegress-logo" src="{%static 'handle/images/codegress-logo.gif'%}" 
+					alt="codegress logo">
+				</a>
+			</li>
+			<li class="pull-right"><a href="/login" class="btn">Login</a></li>
+			</ul>
+		</div>
+		<form action="/signup" method="post" role="form" class="col-md-4">{%csrf_token%}
+			<div class="form-group">
+				<input type="text" name="first_name"  
+				value="{%if fname%}{{fname}}{%endif%}"
+				class="form-control" placeholder="First name"
+				{%if not fname%}autofocus{%endif%}>
+			</div>
+			<div class="form-group">
+				<input type="text" name="last_name"  
+				value="{%if lname%}{{lname}}{%endif%}"
+				class="form-control" placeholder="Last name"
+				{%if not lname%}autofocus{%endif%}>
+			</div>
+			<div class="form-group">
+				<input type="text" name="email"  
+				value="{%if email%}{{email}}{%endif%}"
+				class="form-control" placeholder="Email"
+				{%if not email%}autofocus{%endif%}>
+			</div>
+			<div class="form-group">
+				<input type="text" name="handle"  
+				value="{%if handle%}{{handle}}{%endif%}"
+				class="form-control" placeholder="Username"
+				{%if not handle%}autofocus{%endif%}>
+			</div>
+			<div class="form-group">
+				<input type="password" name="password" 
+				class="form-control" placeholder="Password">
+			</div>
+			<div class="form-group">
+				<input type="text" name="country"  
+				value="{%if country%}{{country}}{%endif%}"
+				class="form-control" placeholder="Country (e.g. India)"
+				{%if not country%}autofocus{%endif%}>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-danger">Sign Up</button>
+			</div>
+			{%if error%}
+				<pre class="text-danger">{{error}}</pre>
+			{%endif%}
+			{%if forgot%}
+			<span>
+				<a href="/login/recover">Forgot password?</a>
+			</span>
+			{%endif%}
+		</form>
+</div>
+{%endblock%}

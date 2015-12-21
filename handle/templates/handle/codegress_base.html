@@ -1,0 +1,26 @@
+{%load staticfiles%}
+<div class="page-header">
+	<ul class="list-inline">
+		<li>
+			<a href="/" class="btn">
+				<img id="codegress-logo" src="{%static 'handle/images/codegress-logo.gif'%}" 
+				alt="codegress logo">
+			</a>
+		</li>
+		<li class="handle-image pull-right">
+		<div class="dropdown handle-tooltip">
+			<img class="dropdown-toggle cursor" src="{%static 'handle/images/default-handle-img.png'%}" alt="Default Profile Image" data-toggle="dropdown">
+			<span class=" dropdown-toggle caret cursor" data-toggle="dropdown"></span>
+			<ul class="dropdown-menu text-center">
+			    <li><a href="#">Leaderboard</a></li>
+			    <li><a href="settings/personal">
+			    	Profile Settings</a>
+			    </li>
+			    <li><a href="#">Group Activity</a></li>
+			    <li class="divider"></li>
+			    <li><a href="/logout">Logout</a></li>
+		  	</ul>
+		</div>
+		</li>
+	</ul>
+</div>

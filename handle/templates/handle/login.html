@@ -1,38 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>CodeGress | Code | Progress</title>
-	{%load staticfiles%}
-	{%include 'handle/base.html'%}
-</head>
-<body>
-	<div class="container">
-			<div class="page-header">
-				<a href="/" class="btn btn-default">
-					<span class="glyphicon glyphicon-home"></span>
+{%extends 'handle/base.html'%}
+{%load staticfiles%}
+{%block body%}
+<div class="container">
+		<div class="page-header">
+			<ul class="list-inline">
+			<li>
+				<a href="/" class="btn">
+					<img id="codegress-logo" src="{%static 'handle/images/codegress-logo.gif'%}" 
+					alt="codegress logo">
 				</a>
+			</li>
+			<li class="pull-right"><a href="/signup" class="btn">Sign Up</a></li>
+			</ul>
+		</div>
+		<form action="/login" method="post" role="form" class="col-md-4">{%csrf_token%}
+			<div class="form-group">
+				<input type="text" name="handle"  value="{%if handle%}{{handle}}{%endif%}"
+				class="form-control" placeholder="Username or Email" 
+				{%if not handle or focus%}autofocus{%endif%}>
 			</div>
-			<form action="/login" method="post" role="form" class="col-md-4">{%csrf_token%}
-				<div class="form-group">
-					<input type="text" name="handle"  value="{%if handle%}{{handle}}{%endif%}"
-					class="form-control" placeholder="Username" 
-					{%if not handle or focus%}autofocus{%endif%}>
-				</div>
-				<div class="form-group">
-					<input type="password" name="password" class="form-control" 
-					placeholder="Password" {%if handle and not focus%}autofocus{%endif%}>
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-danger">Login</button>
-					<span>
-						<a href="/login/recover">Forgot password?</a>
-					</span>
-				</div>
-				{%if error%}
-					<pre class="text-info">{{error}}</pre>
-				{%endif%}
-			</form>
-	</div>
-</body>
-</html>
+			<div class="form-group">
+				<input type="password" name="password" class="form-control" 
+				placeholder="Password" {%if handle and not focus%}autofocus{%endif%}>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-danger login-btn">Login</button>
+				<span class="forgot-text">
+					<a href="/login/recover">Forgot password?</a>
+				</span>
+			</div>
+			{%if error%}
+				<pre class="text-danger">{{error}}</pre>
+			{%endif%}
+		</form>
+</div>
+{%endblock%}
