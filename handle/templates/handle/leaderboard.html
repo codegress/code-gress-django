@@ -1,0 +1,16 @@
+{%include 'handle/base.html'%}
+<div class="container">
+	{%include 'handle/header.html'%}
+	<span class="col-md-4"></span>
+	<div class="text-center col-md-4">
+		{%if handle%}
+		<div class="bg-info">
+			<p class="bg-primary">Username : {{handle}}</p>
+			<p>Name : {{fname}}&nbsp;{{lname}}</p>
+			<p>Email : {{email}}</p>
+			<p>Country : {{country}}</p>
+			<p>Rank : {{rank}}</p>
+		</div>
+		{%endif%}
+	</div>
+</div>

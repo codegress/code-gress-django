@@ -1,23 +1,51 @@
 body{
-	background: url(../images/background.jpg);
+	font-family: "Lucida Grande";
 }
 .container{
-
-}
-.info{
 	
+}
+.page-header{
+	margin-top: 35px;
+	padding-bottom: 0px;
+}
+.page-header .container{
+	padding:0px;
+}
+.box{
+	box-shadow: 0px 0px 1px gray;
+	border-radius: 5px;
+}
+.box-title{
+	padding-top:20px;
+	padding-bottom:10px;
+}
+.feeds{
+	
+}
+.feed{
+	padding: 10px;
+	box-shadow: 0px 0px 1px silver;
+	margin-bottom: 15px;
+}
+.feed-title{
+	font-family: "Droid Sans";
+	color: #666;
+	font-weight: bold;
+}
+.graph{
+	
+}
+.graph-title{
+	color: #666;
+}
+.graph-body{
+
 }
 .logo{
 	width: 55px;
 }
-.handle-image{
-	
-}
 .handle-image img{
 	width: 48px;
-}
-.handle-graph img{
-	width:300px;
 }
 .cursor{
 	cursor: pointer;
@@ -25,9 +53,15 @@ body{
 #codegress-logo{
 	width:38px;
 }
-.login-btn{
-
-}
 .forgot-text{
-	padding-left: 20px;
+	position: relative;
+	left: 10px;
+}
+.btn-login{
+	position: relative;
+	left: 140px;
+}
+.pull-right{
+	position: relative;
+	right: 20px;
 }

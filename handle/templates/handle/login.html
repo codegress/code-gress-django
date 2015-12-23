@@ -2,18 +2,10 @@
 {%load staticfiles%}
 {%block body%}
 <div class="container">
-		<div class="page-header">
-			<ul class="list-inline">
-			<li>
-				<a href="/" class="btn">
-					<img id="codegress-logo" src="{%static 'handle/images/codegress-logo.gif'%}" 
-					alt="codegress logo">
-				</a>
-			</li>
-			<li class="pull-right"><a href="/signup" class="btn">Sign Up</a></li>
-			</ul>
-		</div>
-		<form action="/login" method="post" role="form" class="col-md-4">{%csrf_token%}
+		{%include 'handle/header.html'%}
+		<span class="col-md-4"></span>
+		<form action="/login" method="post" role="form" class="col-md-4 box">{%csrf_token%}
+			<p class="box-title text-danger text-center text-uppercase">Login</p>
 			<div class="form-group">
 				<input type="text" name="handle"  value="{%if handle%}{{handle}}{%endif%}"
 				class="form-control" placeholder="Username or Email" 
@@ -24,9 +16,9 @@
 				placeholder="Password" {%if handle and not focus%}autofocus{%endif%}>
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-danger login-btn">Login</button>
-				<span class="forgot-text">
-					<a href="/login/recover">Forgot password?</a>
+				<button type="submit" class="btn btn-danger">Login</button>
+				<span class="pull-right">
+					<a href="/login/recover">Forgot Password?</a>
 				</span>
 			</div>
 			{%if error%}

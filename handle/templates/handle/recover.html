@@ -10,16 +10,19 @@
 					alt="codegress logo">
 				</a>
 			</li>
-			<li><a href="/login" class="btn">Login</a></li>
+			<li class="pull-right"><a href="/signup" class="btn">Sign Up</a></li>
+			<li class="pull-right"><a href="/login" class="btn">Login</a></li>
 		</ul>	
 	</div>
-	<form action="/login/recover" method="post" role="form" class="col-md-4">{%csrf_token%}
+	<span class="col-md-4"></span>
+	<form action="/login/recover" method="post" role="form" class="box col-md-4">{%csrf_token%}
+		<p class="box-title text-danger text-center text-uppercase">Recover Password</p>
 		<div class="form-group">
 			<input type="text" id="email-forgot" name="email" value="{%if handle%}{{handle}}{%endif%}" autofocus
 			class="form-control" placeholder="Enter your email">
 		</div>
 		<div class="form-group">
-			<button type="submit" class="btn btn-danger">Recover Password</button>
+			<button type="submit" class="btn btn-danger">Recover</button>
 		</div>
 		{%if error%}
 			<pre class="text-danger">{{error}}</pre>

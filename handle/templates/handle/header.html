@@ -1,5 +1,6 @@
 {%load staticfiles%}
 <div class="page-header">
+	<div class="container">
 	<ul class="list-inline">
 		<li>
 			<a href="/" class="btn">
@@ -7,12 +8,13 @@
 				alt="codegress logo">
 			</a>
 		</li>
-		<li class="handle-image pull-right">
-		<div class="dropdown handle-tooltip">
+		{%if request.session.handle%}
+		<li class="handle-image pull-right handle-tooltip">
+		<div class="dropdown">
 			<img class="dropdown-toggle cursor" src="{%static 'handle/images/default-handle-img.png'%}" alt="Default Profile Image" data-toggle="dropdown">
 			<span class=" dropdown-toggle caret cursor" data-toggle="dropdown"></span>
-			<ul class="dropdown-menu text-center">
-			    <li><a href="#">Leaderboard</a></li>
+			<ul class="dropdown-menu">
+			    <li><a href="/{{request.session.handle}}/">Leaderboard</a></li>
 			    <li><a href="settings/personal">
 			    	Profile Settings</a>
 			    </li>
@@ -22,5 +24,22 @@
 		  	</ul>
 		</div>
 		</li>
+		{%else%}
+			{%if signup%}
+			<li class="pull-right"><a href="/signup" class="btn">Sign Up</a></li>
+			{%endif%}
+			{%if login%}
+			<li class="pull-right"><a href="/login" class="btn">Login</a></li>
+			{%endif%}	
+		{%endif%}
+		<li>
+			<form action="/search" method="GET" role="form">
+				<div class="form-group">
+					<input class="form-control" type="search" name="q" 
+					placeholder="Search for a challenger">				
+				</div>
+			</form>
+		</li>
 	</ul>
+	</div>
 </div>

@@ -1,22 +1,29 @@
 {%extends 'handle/profile_settings.html'%}
 {%block profile_body%}
+	<span class="col-md-3"></span>
 	<form action="personal" method="post" role="form">{%csrf_token%}
 		<div class="col-md-4">
-			<p class="text-info">Personal Information</p><hr>
+			<p class="text-danger text-center text-uppercase">Personal Information</p><hr>
 			<div class="form-group">
+				<span>First name</span>
 				<input type="text" name="fn"  value=""
 				class="form-control" placeholder="{%if fn%}{{fn}}{%endif%}">
 			</div>
 			<div class="form-group">
+				<span>Last name</span>
 				<input type="text" name="ln"  value=""
 				class="form-control" placeholder="{%if ln%}{{ln}}{%endif%}">
 			</div>
+			<hr>
+			<span></span>
 			<div class="form-group">
+				<span>Email</span>
 				<input type="text" name="email"  
 				value=""
 				class="form-control" placeholder="{%if email%}{{email}}{%endif%}">
 			</div>
 			<div class="form-group">
+				<span>Country</span>
 				<input type="text" name="email"  
 				value=""
 				class="form-control" placeholder="{%if country%}{{country}}{%endif%}">

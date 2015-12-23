@@ -2,40 +2,29 @@
 {%load staticfiles%}
 {%block body%}
 <div class="container">
-	<div class="page-header">
-		<ul class="list-inline">
-		<li>
-			<a href="/" class="btn">
-			<img id="codegress-logo" src="{%static 'handle/images/codegress-logo.gif'%}" 
-			alt="codegress logo"></a>
-		</li>
-		<li>
-			<p class="text-capitalize text-warning">settings / {{selected_list_item}} / </p>
-		</li>
-		</ul>
-	</div>
+	{%include 'handle/codegress_base.html'%}
 	<div class="row">
-		<ul class="list-group col-md-2 text-center">
-			<li class="list-group-item">
-				<a class="" href="personal">Personal</a>
-			</li>
-			<li class="list-group-item">
-				<a href="password">Password</a>
-			</li>
-			<li class="list-group-item">
-				<a class="" href="group">Group</a>
-			</li>
-			<li class="list-group-item">
-				<a class="" href="challenges">Challenges</a>
-			</li>
-			<li class="list-group-item">
-				<a href="feeds">Feeds</a>
-			</li>
-		</ul>
-		<div>
+		<div class="col-md-2">
+			<ul class="list-group text-center">
+				<li class="list-group-item">
+					<a href="personal">Personal</a>
+				</li>
+				<li class="list-group-item">
+					<a href="password">Password</a>
+				</li>
+				<li class="list-group-item">
+					<a class="" href="group">Group</a>
+				</li>
+				<li class="list-group-item">
+					<a class="" href="challenges">Challenges</a>
+				</li>
+				<li class="list-group-item">
+					<a href="feeds">Feeds</a>
+				</li>
+			</ul>
+		</div>
 		{%block profile_body%}
 		{%endblock%}
-		</div>
 	</div>
 </div>
 {%endblock%}

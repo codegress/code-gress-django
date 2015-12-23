@@ -2,39 +2,50 @@
 {%load staticfiles%}
 {%block body%}
 <div class="container">
-	{%include 'handle/codegress_base.html'%}
-	<div>
-		<ul class="list-group col-md-2 text-center">
+	{%include 'handle/header.html'%}
+	<div class="col-md-2">
+		<ul class="list-group text-center">
 			<li class="list-group-item">
-				<a href="/challenges/">Challenges</a>
+				<a href="/challenges">Challenges</a>
 			</li>
 			<li class="list-group-item">
-				<a href="/competitions/">Competitons</a>
+				<a  href="/updates">Updates</a>
 			</li>
 			<li class="list-group-item">
-				<a  href="caf">Challenge a Friend</a>
+				<a href="/competitions">Competitons</a>
+			</li>
+			<li class="list-group-item">
+				<a  href="/messages">Messages</a>
+			</li>
+			<li class="list-group-item">
+				<a  href="/recent">Recent Challenges</a>
 			</li>
 		</ul>
 	</div>
-	<div>
-	<ul class="nav nav-pills col-md-8 text-center" data-toggle="affix">
-		<li class="col-md-3">
-			<a href="feeds">Feeds</a>
-		</li>
-		<li class="col-md-3">
-			<a href="updates">Updates</a>
-		</li>
-		<li class="col-md-3">
-			<a href="challenges">Recent Challenges</a>
-		</li>
-	</ul>
+	<div class="col-md-8 feeds">
+		{%if feeds%}
+			{%for feed in feeds%}
+			<div class="feed">
+				<p class="feed-title">Lorem ipsum dolor sit amet</p>
+				<p class="feed-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat fugit reiciendis nemo laborum consectetur, maxime veritatis eos cum. Vel eveniet, laudantium beatae ab hic iste repudiandae quia modi dolores suscipit?</p>
+				<form action="">
+					<input type="hidden" value="" name="identify">
+					<a class="btn btn-default btn-sm">Challenge Friend</a>
+					<a class="btn btn-default btn-sm">Try It Yourself</a>
+					<a class="btn btn-default btn-sm">
+						<span class="text-danger">{{forloop.counter}}</span> Comments</a>
+				</form>
+			</div>
+			{%endfor%}
+		{%else%}
+			<p class="text-warning text-center">Hey, you have no feeds yet..</p>
+		{%endif%}
 	</div>
-	<div>
-		<ul class="list-group col-md-2 text-center">
-			<li class="list-group-item">
-				<a href="graphs">Graphs</a>
-			</li>
-		</ul>
+	<div class="col-md-2">
+		<div class="graph">
+			<p class="graph-title">Graphs</p>
+			<p class="graph-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod reprehenderit quae, repudiandae, culpa repellat voluptas obcaecati possimus nisi aut odit eius corrupti, odio numquam veniam nulla repellendus ipsa earum id</p>
+		</div>
 	</div>
 </div>
 {%endblock%}
