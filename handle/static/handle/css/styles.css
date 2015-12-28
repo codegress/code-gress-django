@@ -1,23 +1,27 @@
 body{
+	background-color: #FEFEFE;
 	font-family: "Lucida Grande";
 }
 .container{
-	
 }
 .page-header{
 	margin-top: 35px;
+	margin-bottom: 15px;
 	padding-bottom: 0px;
+	border-bottom: 1px solid #ccc;
 }
 .page-header .container{
 	padding:0px;
 }
 .box{
-	box-shadow: 0px 0px 1px gray;
+	margin-top: 10px;
+	box-shadow: 0.2px 0.5px 1.1px gray;
 	border-radius: 5px;
+	padding-bottom: 10px;	
+	background-color: #fff;
 }
 .box-title{
 	padding-top:20px;
-	padding-bottom:10px;
 }
 .feeds{
 	

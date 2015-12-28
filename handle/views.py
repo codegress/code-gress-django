@@ -2,18 +2,17 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.contrib.auth.hashers import make_password
 from forms import RegistrationForm
 from .models import Registration
 import re,random
-from django.contrib.auth.hashers import make_password
-# Create your views here.
 
-# If the user logged already, redirects him to his page or else to the home page
+# If the user already logged in, redirect him to his page
 def index(request):
 	context = {}
 	if request.session.get('handle'or None):
 		handle = request.session['handle']
-		context['feeds'] = handle
+		context['feeds'] = 3*handle
 		form = Registration.objects.get(handle=handle)
 		return render(request,'handle/codegress.html',context)
 	else:
@@ -21,6 +20,7 @@ def index(request):
 		context['login'] = True
 		return render(request,'handle/index.html',context)
 
+# search for user leaderboard information
 def search(request):
 	context = {}
 	if request.GET['q']:
@@ -29,9 +29,11 @@ def search(request):
 	else:
 		context['info'] = "404 page not found"
 	return render(request,'handle/404.html',context)
+	
 # signup redirects to login if success
 def signup(request):
 	context = {}
+	context['login'] = True
 	if request.session.get('handle'or None):
 		return HttpResponseRedirect('/')
 	elif request.method == 'POST':
@@ -56,7 +58,6 @@ def signup(request):
 					if handle_flag and email_flag:
 						context['handle'] = handle
 						if validate_password(paswrd):
-							# paswrd = make_password(password=paswrd,salt=None,hasher='default')
 							form = Registration(first_name=fname,last_name=lname,country=country,email=email,handle=handle,password=paswrd)
 							form.save()
 							return render(request,"handle/login.html",context)
@@ -64,6 +65,7 @@ def signup(request):
 							context['error'] = 'Secure passwords should have atleast\na number and a special character'
 					elif not email_flag:
 						context['error'] = 'Email already registered.'
+						request.session['email'] = email
 						context['forgot'] = True
 					elif not handle_flag:
 						context['error'] = 'Username not available.'
@@ -73,8 +75,6 @@ def signup(request):
 				context['error'] = "Email is invalid"
 		else:
 			context['error'] = "Fields can't be empty."
-	else:
-		context['login'] = True
 	return render(request,'handle/signup.html',context)
 
 # check for whether username and/or email exists already
@@ -100,28 +100,28 @@ def validate_password(password):
 # Login verfication and session management
 def login(request):
 	context = {}
+	context['signup'] = True
 	if request.session.get('handle'or None):
 		return HttpResponseRedirect('/')
 	elif request.method == 'POST':
 		current_handle = request.POST.get('handle',None)
 		current_password = request.POST.get('password',None)
 		if current_handle and current_password:
+			context['handle'] = current_handle
 			try:
 				if '@' in current_handle:
 					validate_email(current_handle)
 					form = Registration.objects.get(email=current_handle)
+					request.session['email'] = current_handle
 					current_handle = form.handle
 				else:	
 					form = Registration.objects.get(handle=current_handle)
 				
 				if form.password == current_password:
 					request.session['handle'] = current_handle
-					request.session['fname'] = form.first_name
-					request.session['lname'] = form.last_name
 					return HttpResponseRedirect('/')
 				else:
-					context['handle'] = current_handle
-					context['error'] = "Password isn't matched."
+					context['error'] = "Email / Password isn't correct"
 					context['focus'] = False
 			except ValidationError:
 				context['error'] = "Email is Invalid."
@@ -130,8 +130,6 @@ def login(request):
 				context['error'] = "Username / Email not registered."
 		else:
 			context['error'] = "Fields can't be empty."
-	else:
-		context['signup'] = True
 	return render(request,'handle/login.html',context)
 
 # password recovery returns to same page (with messages and/or errors)
@@ -144,6 +142,8 @@ def recover(request):
 				validate_email(recover_email)
 				form = Registration.objects.get(email=recover_email)
 				context['info'] = "Email Sent."
+				if request.session.get('email' or None):
+					del request.session['email']
 			except ValidationError:
 				context['error'] = 'Email is invalid'
 			except Registration.DoesNotExist:
@@ -158,11 +158,15 @@ def recover(request):
 def logout(request):
 	if request.session.get('handle'or None):
 		del request.session['handle']
+	if request.session.get('email' or None):
+		del request.session['email']
 	return HttpResponseRedirect('/')
 
 # Redirects to User's page on success or to 404 page
 def leaderboard(request,handle):
 	context = {}
+	context['login'] = True
+	context['signup'] = True
 	try:
 		form = Registration.objects.get(handle=handle)
 		context['handle'] = handle
@@ -173,8 +177,18 @@ def leaderboard(request,handle):
 		rank = int(random.random()*random.random()*100)
 		if rank != 0:
 			context['rank'] = rank
+			if rank%10 == 1:
+				context['suffix'] = 'st'
+			elif rank%10 == 2:
+				context['suffix'] = 'nd'
+			elif rank%10 == 3:
+				context['suffix'] = 'rd'
+			else:
+				context['suffix'] = 'th'
+			context['rank'] = rank
 		else:
 			context['rank'] = 1
+			context['suffix'] = 'st'
 		return render(request,'handle/leaderboard.html',context)
 	except Registration.DoesNotExist:
 		context['error'] = "PAGE NOT FOUND"
@@ -182,23 +196,28 @@ def leaderboard(request,handle):
 		return render(request,'handle/404.html',context)
 
 def challenges(request):
-	return render(request,'handle/codegress.html')
+	context = {'error':'Nothing new to display yet..'}
+	return render(request,'handle/codegress.html',context)
 
 def competitions(request):
-	return render(request,'handle/codegress.html')
+	context = {'error':'Nothing new to display yet..'}
+	return render(request,'handle/codegress.html',context)
 
 def updates(request):
-	return render(request,'handle/codegress.html')
+	context = {'error':'Nothing new to display yet..'}
+	return render(request,'handle/codegress.html',context)
 
 def messages(request):
-	return render(request,'handle/codegress.html')
+	context = {'error':'Nothing new to display yet..'}
+	return render(request,'handle/codegress.html',context)
 
 def recent(request):
-	return render(request,'handle/codegress.html')
+	context = {'error':'Nothing new to display yet..'}
+	return render(request,'handle/codegress.html',context)
 
 def profile(request,selected):
 	context = {}
-	items = ['personal','password','group','challenges','feeds']
+	fields = {'personal':True,'password':True,'group':True,'challenges':True,'feeds':True}
 	if request.session.get('handle' or None):
 			handle = request.session['handle']
 			form = Registration.objects.get(handle=handle)
@@ -206,8 +225,14 @@ def profile(request,selected):
 			context['ln'] = form.last_name
 			context['email'] = form.email
 			context['country'] = form.country
-			if selected in items:
-				context['selected_list_item'] = selected
-				html_url = "handle/profile_"+selected+".html"
-				return render(request,html_url,context)
-	return HttpResponseRedirect("/settings/personal")
+			try: 
+				if fields[selected]:
+					context['selected_list_item'] = selected
+					html_url = "handle/profile_"+selected+".html"
+					return render(request,html_url,context)
+			except KeyError:
+				pass
+	return HttpResponseRedirect("/settings/personal",context)
+
+def follow(request,handle):
+	return HttpResponse(request.session['handle']+' => '+handle)

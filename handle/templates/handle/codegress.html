@@ -2,49 +2,54 @@
 {%load staticfiles%}
 {%block body%}
 <div class="container">
-	{%include 'handle/header.html'%}
-	<div class="col-md-2">
-		<ul class="list-group text-center">
-			<li class="list-group-item">
-				<a href="/challenges">Challenges</a>
-			</li>
-			<li class="list-group-item">
-				<a  href="/updates">Updates</a>
-			</li>
-			<li class="list-group-item">
-				<a href="/competitions">Competitons</a>
-			</li>
-			<li class="list-group-item">
-				<a  href="/messages">Messages</a>
-			</li>
-			<li class="list-group-item">
-				<a  href="/recent">Recent Challenges</a>
-			</li>
-		</ul>
-	</div>
-	<div class="col-md-8 feeds">
-		{%if feeds%}
-			{%for feed in feeds%}
-			<div class="feed">
-				<p class="feed-title">Lorem ipsum dolor sit amet</p>
-				<p class="feed-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat fugit reiciendis nemo laborum consectetur, maxime veritatis eos cum. Vel eveniet, laudantium beatae ab hic iste repudiandae quia modi dolores suscipit?</p>
-				<form action="">
-					<input type="hidden" value="" name="identify">
-					<a class="btn btn-default btn-sm">Challenge Friend</a>
-					<a class="btn btn-default btn-sm">Try It Yourself</a>
-					<a class="btn btn-default btn-sm">
-						<span class="text-danger">{{forloop.counter}}</span> Comments</a>
-				</form>
+	<div class="row">
+		{%include 'handle/header.html'%}
+		<div class="col-md-2">
+			<ul class="list-group text-center">
+				<li class="list-group-item">
+					<a href="/challenges">Challenges</a>
+				</li>
+				<li class="list-group-item">
+					<a  href="/updates">Updates</a>
+				</li>
+				<li class="list-group-item">
+					<a href="/competitions">Competitons</a>
+				</li>
+				<li class="list-group-item">
+					<a  href="/messages">Messages</a>
+				</li>
+				<li class="list-group-item">
+					<a  href="/recent">Recent Challenges</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-8 feeds">
+			{%if feeds%}
+				{%for feed in feeds%}
+				<div class="feed">
+					<p class="feed-title">
+						Lorem ipsum dolor sit amet - <a href="">{{handle}}</a>
+					</p>
+					<p class="feed-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat fugit reiciendis nemo laborum consectetur, maxime veritatis eos cum. Vel eveniet, laudantium beatae ab hic iste repudiandae quia modi dolores suscipit?</p>
+					<form action="">
+						<input type="hidden" value="" name="identify">
+						<a class="btn bg-default btn-xs">Try It Yourself</a>
+						<a class="btn bg-default btn-xs">Challenge</a>
+						<a class="btn bg-default btn-xs">
+							<span class="text-danger">{{forloop.counter}}</span> Comments</a>
+					</form>
+				</div>
+				{%endfor%}
+			{%endif%}
+			{%if error%}
+				<p class="text-warning text-center">{{error}}</p>
+			{%endif%}
+		</div>
+		<div class="col-md-2">
+			<div class="graph">
+				<p class="graph-title">Graphs</p>
+				<p class="graph-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod reprehenderit quae, repudiandae, culpa repellat voluptas obcaecati possimus nisi aut odit eius corrupti, odio numquam veniam nulla repellendus ipsa earum id</p>
 			</div>
-			{%endfor%}
-		{%else%}
-			<p class="text-warning text-center">Hey, you have no feeds yet..</p>
-		{%endif%}
-	</div>
-	<div class="col-md-2">
-		<div class="graph">
-			<p class="graph-title">Graphs</p>
-			<p class="graph-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod reprehenderit quae, repudiandae, culpa repellat voluptas obcaecati possimus nisi aut odit eius corrupti, odio numquam veniam nulla repellendus ipsa earum id</p>
 		</div>
 	</div>
 </div>

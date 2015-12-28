@@ -1,29 +1,33 @@
 {%extends 'handle/base.html'%}
 {%load staticfiles%}
+{%block title%}Codegress Login{%endblock%}
 {%block body%}
 <div class="container">
-		{%include 'handle/header.html'%}
-		<span class="col-md-4"></span>
-		<form action="/login" method="post" role="form" class="col-md-4 box">{%csrf_token%}
-			<p class="box-title text-danger text-center text-uppercase">Login</p>
+	{%include 'handle/header.html'%}
+	<div class="row">
+		<form action="/signin" method="post" role="form" 
+			class="col-md-offset-4 col-md-4 box">{%csrf_token%}
+			<p class="box-title text-danger text-center">Sign in to Codegress</p><hr>
 			<div class="form-group">
 				<input type="text" name="handle"  value="{%if handle%}{{handle}}{%endif%}"
 				class="form-control" placeholder="Username or Email" 
 				{%if not handle or focus%}autofocus{%endif%}>
 			</div>
 			<div class="form-group">
+				<div class="col-md-offset-8">
+					<a href="/recover" tabindex="-1">Forgot Password?</a>
+				</div>
 				<input type="password" name="password" class="form-control" 
 				placeholder="Password" {%if handle and not focus%}autofocus{%endif%}>
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-danger">Login</button>
-				<span class="pull-right">
-					<a href="/login/recover">Forgot Password?</a>
-				</span>
+				<button type="submit" class="btn btn-success form-control" 
+				data-disable-with="Signing in…">Sign In</button>
 			</div>
 			{%if error%}
 				<pre class="text-danger">{{error}}</pre>
 			{%endif%}
 		</form>
+	</div>
 </div>
 {%endblock%}

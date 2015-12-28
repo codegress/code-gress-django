@@ -1,11 +1,13 @@
 {%extends 'handle/base.html'%}
 {%load staticfiles%}
+{%block title%}Codegress SignUp{%endblock%}
 {%block body%}
 <div class="container">
-		{%include 'handle/header.html'%}
-		<span class="col-md-4"></span>
-		<form action="/signup" method="post" role="form" class="col-md-4 box">{%csrf_token%}
-			<p class="box-title text-danger text-center text-uppercase">Register</p>
+	{%include 'handle/header.html'%}
+	<div class="row">
+		<form action="/signup" method="post" role="form" 
+		class="col-md-offset-4 col-md-4 box">{%csrf_token%}
+			<p class="box-title text-danger text-center">Sign up for Codegress</p><hr>
 			<div class="form-group">
 				<input type="text" name="first_name"  
 				value="{%if fname%}{{fname}}{%endif%}"
@@ -41,10 +43,11 @@
 				{%if not country%}autofocus{%endif%}>
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-danger">Sign Up</button>
+				<button type="submit" class="btn btn-success form-control" 
+				data-disable-with="Signing Up…">Sign Up</button>
 				{%if forgot%}
 				<span class="pull-right">
-					<a href="/login/recover">Forgot password?</a>
+					<a href="/recover">Forgot password?</a>
 				</span>
 				{%endif%}
 			</div>
@@ -52,5 +55,6 @@
 				<pre class="text-danger">{{error}}</pre>
 			{%endif%}
 		</form>
+	<div>
 </div>
 {%endblock%}

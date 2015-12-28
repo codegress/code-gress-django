@@ -1,12 +1,15 @@
 {%extends 'handle/base.html'%}
 {%load staticfiles%}
+{%block title%}{{error_desc}}{%endblock%}
 {%block body%}
-{%include 'handle/header.html'%}
-<span class="col-md-4"></span>
-<div class="text-center col-md-4">
-{%if error%}
-	<h2>{{error}}</h2>
-	<p>{{error_desc}}</p>
-{%endif%}
+<div class="container">
+	{%include 'handle/header.html'%}
+	<span class="col-md-4"></span>
+	<div class="box-title text-center col-md-4">
+	{%if error%}
+		<h2>{{error}}</h2>
+		<p>{{error_desc}}</p>
+	{%endif%}
+	</div>
 </div>
 {%endblock%}

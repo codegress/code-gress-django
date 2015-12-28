@@ -1,16 +1,32 @@
-{%include 'handle/base.html'%}
+{%extends 'handle/base.html'%}
+{%load staticfiles%}
+{%block title%}{{handle}}'s Leaderboard{%endblock%}
+{%block body%}
 <div class="container">
 	{%include 'handle/header.html'%}
-	<span class="col-md-4"></span>
-	<div class="text-center col-md-4">
-		{%if handle%}
-		<div class="bg-info">
-			<p class="bg-primary">Username : {{handle}}</p>
-			<p>Name : {{fname}}&nbsp;{{lname}}</p>
-			<p>Email : {{email}}</p>
-			<p>Country : {{country}}</p>
-			<p>Rank : {{rank}}</p>
+	<div class="row">
+		<div class="text-center col-md-4 col-md-offset-4">
+			{%if handle%}
+			<div class="box">
+				<h4 class="box-title">
+					<a href="/{{handle}}">
+						<span class="text-primary">{{fname}}&nbsp;{{lname}}</span>
+					</a>
+				</h4>
+				<hr>
+				<h1>
+					<span class="text-success">
+						{{rank}}<sup>{{suffix}}</sup>
+					</span>
+				</h1>
+				{%if request.session.handle and  request.session.handle != handle%}
+				<p>
+					<a class="btn btn-default btn-xs" href="{{handle}}/follow">Follow</a>
+				</p>
+				{%endif%}
+			</div>
+			{%endif%}
 		</div>
-		{%endif%}
 	</div>
 </div>
+{%endblock%}

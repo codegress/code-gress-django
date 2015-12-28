@@ -1,38 +1,13 @@
 {%load staticfiles%}
 <div class="page-header">
-	<div class="container">
-	<ul class="list-inline">
-		<li>
-			<a href="/" class="btn">
+	<ul class="list-inline row">
+		<li class="col-md-1">
+			<a href="/" class="">
 				<img id="codegress-logo" src="{%static 'handle/images/codegress-logo.gif'%}" 
 				alt="codegress logo">
 			</a>
 		</li>
-		{%if request.session.handle%}
-		<li class="handle-image pull-right handle-tooltip">
-		<div class="dropdown">
-			<img class="dropdown-toggle cursor" src="{%static 'handle/images/default-handle-img.png'%}" alt="Default Profile Image" data-toggle="dropdown">
-			<span class=" dropdown-toggle caret cursor" data-toggle="dropdown"></span>
-			<ul class="dropdown-menu">
-			    <li><a href="/{{request.session.handle}}/">Leaderboard</a></li>
-			    <li><a href="settings/personal">
-			    	Profile Settings</a>
-			    </li>
-			    <li><a href="#">Group Activity</a></li>
-			    <li class="divider"></li>
-			    <li><a href="/logout">Logout</a></li>
-		  	</ul>
-		</div>
-		</li>
-		{%else%}
-			{%if signup%}
-			<li class="pull-right"><a href="/signup" class="btn">Sign Up</a></li>
-			{%endif%}
-			{%if login%}
-			<li class="pull-right"><a href="/login" class="btn">Login</a></li>
-			{%endif%}	
-		{%endif%}
-		<li>
+		<li class="col-md-3">
 			<form action="/search" method="GET" role="form">
 				<div class="form-group">
 					<input class="form-control" type="search" name="q" 
@@ -40,6 +15,38 @@
 				</div>
 			</form>
 		</li>
+		{%if request.session.handle%}
+		<li class="handle-image col-md-offset-7 col-md-1">
+		<div class="dropdown">
+			<img class="dropdown-toggle handle-tooltip cursor" src="{%static 'handle/images/default-handle-img.png'%}" alt="Profile Image" data-toggle="dropdown">
+			<span class=" dropdown-toggle caret cursor" data-toggle="dropdown"></span>
+			<ul class="dropdown-menu">
+			    <li><a href="/{{request.session.handle}}">Leaderboard</a></li>
+			    <li><a href="settings/personal">
+			    	Profile Settings</a>
+			    </li>
+			    <li><a href="/settings/group">Group Activity</a></li>
+			    <li class="divider"></li>
+			    <li><a href="/logout">Logout</a></li>
+		  	</ul>
+		</div>
+		</li>
+		{%else%}
+			{%if signup%}
+			<li class="
+				{%if not login%}col-md-offset-7{%endif%} 
+				{%if login%}col-md-offset-6{%endif%}
+				col-md-1">
+				<a href="/signup" class="btn btn-default">Sign Up</a>
+			</li>
+			{%endif%}
+			{%if login%}
+			<li class="
+				{%if not signup%}col-md-offset-7{%endif%}
+				col-md-1">
+				<a href="/signin" class="btn btn-default">Sign In</a>
+			</li>
+			{%endif%}	
+		{%endif%}
 	</ul>
-	</div>
 </div>
