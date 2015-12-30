@@ -15,13 +15,13 @@
 		</ul>	
 	</div>
 	<span class="col-md-4"></span>
-	<form action="/login/recover" method="post" role="form" class="box col-md-4">{%csrf_token%}
-		<p class="box-title text-danger text-center text-uppercase">Recover Password</p><hr>
+	<form action="/recover" method="post" role="form" class="box col-md-4">{%csrf_token%}
+		<p class="box-title text-danger text-center">Recover Password</p><hr>
 		<div class="form-group">
 			<input type="text" id="email-forgot" name="email" value="{{request.session.email}}" autofocus class="form-control" placeholder="Enter your email">
 		</div>
 		<div class="form-group">
-			<button type="submit" class="btn btn-danger">Recover</button>
+			<button type="submit" class="btn btn-success form-control">Recover</button>
 		</div>
 		{%if error%}
 			<pre class="text-danger">{{error}}</pre>

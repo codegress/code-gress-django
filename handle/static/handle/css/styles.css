@@ -1,8 +1,11 @@
 body{
-	background-color: #FEFEFE;
+	background-color: #e9eaed;
 	font-family: "Lucida Grande";
 }
 .container{
+}
+hr{
+	border-color: #ccc;
 }
 .page-header{
 	margin-top: 35px;
