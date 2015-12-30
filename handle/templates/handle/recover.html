@@ -2,20 +2,8 @@
 {%load staticfiles%}
 {%block body%}
 <div class="container">
-	<div class="page-header">
-		<ul class="list-inline">
-			<li>
-				<a href="/" class="btn">
-					<img id="codegress-logo" src="{%static 'handle/images/codegress-logo.gif'%}" 
-					alt="codegress logo">
-				</a>
-			</li>
-			<li class="pull-right"><a href="/signup" class="btn">Sign Up</a></li>
-			<li class="pull-right"><a href="/login" class="btn">Login</a></li>
-		</ul>	
-	</div>
-	<span class="col-md-4"></span>
-	<form action="/recover" method="post" role="form" class="box col-md-4">{%csrf_token%}
+	{%include 'handle/header.html'%}
+	<form action="/recover" method="post" role="form" class="box col-md-4 col-md-offset-4">{%csrf_token%}
 		<p class="box-title text-danger text-center">Recover Password</p><hr>
 		<div class="form-group">
 			<input type="text" id="email-forgot" name="email" value="{{request.session.email}}" autofocus class="form-control" placeholder="Enter your email">

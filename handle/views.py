@@ -14,6 +14,7 @@ def index(request):
 		handle = request.session['handle']
 		context['feeds'] = 3*handle
 		form = Registration.objects.get(handle=handle)
+		context['handle'] = handle;
 		return render(request,'handle/codegress.html',context)
 	else:
 		context['signup'] = True

@@ -28,16 +28,17 @@
 				{%for feed in feeds%}
 				<div class="feed">
 					<p class="feed-title">
-						Lorem ipsum dolor sit amet - <a href="">{{handle}}</a>
+						Lorem ipsum dolor sit amet - <a href="/{{handle}}">{{handle}}</a>
 					</p>
 					<p class="feed-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat fugit reiciendis nemo laborum consectetur, maxime veritatis eos cum. Vel eveniet, laudantium beatae ab hic iste repudiandae quia modi dolores suscipit?</p>
-					<form action="">
-						<input type="hidden" value="" name="identify">
-						<a class="btn bg-default btn-xs">Try It Yourself</a>
-						<a class="btn bg-default btn-xs">Challenge</a>
-						<a class="btn bg-default btn-xs">
-							<span class="text-danger">{{forloop.counter}}</span> Comments</a>
-					</form>
+					<input type="hidden" value="" name="identify">
+					<a class="btn bg-default btn-xs">Try It Yourself</a>
+					<a class="btn bg-default btn-xs">Challenge</a>
+					<a class="btn bg-default btn-xs">
+						<span class="text-danger">
+							{{forloop.counter}}
+						</span>Comments
+					</a>
 				</div>
 				{%endfor%}
 			{%endif%}
@@ -45,10 +46,13 @@
 				<p class="text-warning text-center">{{error}}</p>
 			{%endif%}
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-2 graphs">
 			<div class="graph">
-				<p class="graph-title">Graphs</p>
-				<p class="graph-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod reprehenderit quae, repudiandae, culpa repellat voluptas obcaecati possimus nisi aut odit eius corrupti, odio numquam veniam nulla repellendus ipsa earum id</p>
+				<p class="graph-title">Graphs<span class="caret"></span></p>
+				<p class="graph-body">
+					<img src="{%static 'handle/images/graph_sin_x.png'%}" alt=""
+					width="250">
+				</p>
 			</div>
 		</div>
 	</div>

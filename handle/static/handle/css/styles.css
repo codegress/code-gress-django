@@ -1,6 +1,6 @@
 body{
-	background-color: #e9eaed;
 	font-family: "Lucida Grande";
+	background-color: #e9eaed;
 }
 .container{
 }
@@ -21,32 +21,50 @@ hr{
 	box-shadow: 0.2px 0.5px 1.1px gray;
 	border-radius: 5px;
 	padding-bottom: 10px;	
-	background-color: #fff;
+	background-color: white;
 }
 .box-title{
 	padding-top:20px;
 }
 .feeds{
-	
+	padding:5px;
+	box-shadow:0px 0px 1px gray;
 }
 .feed{
 	padding: 10px;
-	box-shadow: 0px 0px 1px silver;
 	margin-bottom: 15px;
+	background-color: white;
+	box-shadow:0 4px 6px 1px rgba(50, 50, 50, 0.14);
+}
+.feed:hover{
+
 }
 .feed-title{
+	padding: 0px 0px 0px 5px;
 	font-family: "Droid Sans";
 	color: #666;
 	font-weight: bold;
 }
+.feed-body{
+	padding: 0px 0px 5px 5px;
+	color: gray;
+}
+.graphs{
+	display: none;
+	color: gray;
+	padding: 0px;
+}
 .graph{
-	
+
 }
 .graph-title{
+	font-weight: bold;
 	color: #666;
+	font-family: "Droid Sans";
+	text-align: center;
 }
 .graph-body{
-
+	padding: 10px;
 }
 .logo{
 	width: 55px;
