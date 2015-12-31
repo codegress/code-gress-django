@@ -9,16 +9,15 @@
 			{%if handle%}
 			<div class="box">
 				<h4 class="box-title">
-					<a href="/{{handle}}">
-						<span class="text-primary">{{fname}}&nbsp;{{lname}}</span>
-					</a>
+					<p>{{rank}}<sup>{{suffix}}</sup></p>
 				</h4>
 				<hr>
-				<h1>
-					<span class="text-success">
-						{{rank}}<sup>{{suffix}}</sup>
-					</span>
-				</h1>
+				<p><a href="/{{handle}}">
+					<span class="text-primary">{{fname}}</span>
+				</a></p>
+				<p>{{company}}</p>
+				<p>{{country}}</p>
+				<p><a href="{{website}}">{{website}}</a></p>
 				{%if request.session.handle and  request.session.handle != handle%}
 				<p>
 					<a class="btn btn-default btn-xs" href="{{handle}}/follow">Follow</a>

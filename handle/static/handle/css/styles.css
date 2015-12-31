@@ -28,6 +28,16 @@ hr{
 	padding-top:20px;
 	font-size: 16px;
 }
+.form-control:focus{
+	box-shadow: none;
+}
+.validation-error{
+	background: #FEF1EC;
+    border: 1px solid #CD0A0A;
+}
+#handle-error{
+	font-size: 13px;
+}
 .feeds{
 	padding:5px;
 	box-shadow:0px 0px 1px gray;
@@ -79,6 +89,7 @@ hr{
 }
 #codegress-logo{
 	width:38px;
+	/*font-family: 'Merriweather Sans';*/
 }
 .forgot-text{
 	position: relative;

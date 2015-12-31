@@ -21,14 +21,14 @@ class Problem(models.Model):
 	sample_in_desc = models.TextField(null=True)
 	sample_out_desc = models.TextField(null=True)
 	note = models.CharField(max_length=200,null=True)
-	solution_id = models.ForeignKey('Solution',null=True)
-	samplecase_id = models.ForeignKey('SampleCase')
+	sol = models.ForeignKey('Solution',null=True)
+	sample = models.ForeignKey('SampleCase')
 	handle = models.ForeignKey(Registration)
 	created = models.DateTimeField(auto_now = True)
 	modified = models.DateTimeField(auto_now_add = True)
 
 class Solution(models.Model):
-	problem_id = models.ForeignKey(Problem)
+	prob = models.ForeignKey(Problem)
 	language = models.CharField(max_length=100)
 	text = models.TextField()
 	time = models.FloatField(null=True)
@@ -37,7 +37,7 @@ class Solution(models.Model):
 	modified = models.DateTimeField(auto_now_add = True)
 
 class SampleCase(models.Model):
-	problem_id = models.ForeignKey(Problem)
+	prob = models.ForeignKey(Problem)
 	sample_in = models.TextField()
 	sample_out = models.TextField()
 	time = models.FloatField(null=True)

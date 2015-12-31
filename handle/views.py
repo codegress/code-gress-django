@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
 from forms import RegistrationForm
 from .models import Registration
-import re,random
+import re,random,json
 
 # If the user already logged in, redirect him to his page
 def index(request):
@@ -13,7 +13,6 @@ def index(request):
 	if request.session.get('handle'or None):
 		handle = request.session['handle']
 		context['feeds'] = 3*handle
-		form = Registration.objects.get(handle=handle)
 		context['handle'] = handle;
 		return render(request,'handle/codegress.html',context)
 	else:
@@ -48,22 +47,24 @@ def signup(request):
 				validate_email(email)
 				context['email'] = email
 				if re.match('[a-zA-Z]+',handle):
-					handle_flag = validate_handle(handle)
-					email_flag = validate_handle(email)
+					handle_flag = validate(handle)
+					email_flag = validate(email)
+					context['handle'] = handle
 					if handle_flag and email_flag:
-						context['handle'] = handle
 						if validate_password(paswrd):
 							form = Registration(email=email,handle=handle,password=paswrd)
 							form.save()
 							return render(request,"handle/login.html",context)
 						else: 
-							context['error'] = 'Secure passwords include number and special character'
+							context['error'] = 'Secure passwords should include numbers &  special characters'
+					
+					elif not handle_flag:
+						context['error'] = 'Username not available.'
+
 					elif not email_flag:
 						context['error'] = 'Email already registered.'
 						request.session['email'] = email
 						context['forgot'] = True
-					elif not handle_flag:
-						context['error'] = 'Username not available.'
 				else:
 					context['error'] = 'Username should contain only alphabets'
 			except ValidationError:
@@ -72,8 +73,23 @@ def signup(request):
 			context['error'] = "Fields can't be empty."
 	return render(request,'handle/signup.html',context)
 
+def check_handle(request):
+	handle = request.POST.get('handle' or None)
+	response = {}
+	if handle:
+		try:
+			Registration.objects.get(handle=handle)
+			response['handle_registered'] = True
+			response['info'] = "'"+handle+"' is already taken."
+		except Registration.DoesNotExist:
+			response['handle_registered'] = False
+	else:
+		response['handle_registered'] = True
+	json_data = json.dumps(response)
+	return HttpResponse(json_data,content_type="application/json")
+
 # check for whether username and/or email exists already
-def validate_handle(handle):
+def validate(handle):
 	registered = False
 	try:
 		if '@' in handle:
@@ -83,7 +99,7 @@ def validate_handle(handle):
 		registered = True
 	except Registration.DoesNotExist:
 		registered = False
-	return  not registered
+	return not registered
 
 # Password validation ([0-9], [a-zA-Z] and special chars)
 def validate_password(password):
@@ -166,9 +182,10 @@ def leaderboard(request,handle):
 		form = Registration.objects.get(handle=handle)
 		context['handle'] = handle
 		context['country'] = form.country
+		context['company'] = form.company
+		context['website'] = form.website
 		context['email'] = form.email
-		context['fname'] = form.first_name
-		context['lname'] = form.last_name
+		context['fname'] = form.full_name
 		rank = int(random.random()*random.random()*100)
 		if rank != 0:
 			context['rank'] = rank
