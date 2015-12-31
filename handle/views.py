@@ -38,18 +38,12 @@ def signup(request):
 	if request.session.get('handle'or None):
 		return HttpResponseRedirect('/')
 	elif request.method == 'POST':
-		fname = request.POST.get('first_name' or None)
-		lname = request.POST.get('last_name' or None)
-		country = request.POST.get('country' or None)
-		email = request.POST.get('email' or None)
 		handle = request.POST.get('handle' or None)
+		email = request.POST.get('email' or None)
 		paswrd = request.POST.get('password' or None)
 
 		# Making sure fields are not empty
-		if fname and lname and country and email and handle and paswrd:
-			context['fname'] = fname
-			context['lname'] = lname
-			context['country'] = country
+		if email and handle and paswrd:
 			try:
 				validate_email(email)
 				context['email'] = email
@@ -59,11 +53,11 @@ def signup(request):
 					if handle_flag and email_flag:
 						context['handle'] = handle
 						if validate_password(paswrd):
-							form = Registration(first_name=fname,last_name=lname,country=country,email=email,handle=handle,password=paswrd)
+							form = Registration(email=email,handle=handle,password=paswrd)
 							form.save()
 							return render(request,"handle/login.html",context)
 						else: 
-							context['error'] = 'Secure passwords should have atleast\na number and a special character'
+							context['error'] = 'Secure passwords include number and special character'
 					elif not email_flag:
 						context['error'] = 'Email already registered.'
 						request.session['email'] = email
@@ -222,10 +216,18 @@ def profile(request,selected):
 	if request.session.get('handle' or None):
 			handle = request.session['handle']
 			form = Registration.objects.get(handle=handle)
-			context['fn'] = form.first_name
-			context['ln'] = form.last_name
+			context['fname'] = form.full_name
 			context['email'] = form.email
-			context['country'] = form.country
+			
+			if form.country:
+				context['country'] = form.country
+			
+			if form.company:
+				context['company'] = form.company
+			
+			if form.website:
+				context['website'] = form.website
+			
 			try: 
 				if fields[selected]:
 					context['selected_list_item'] = selected

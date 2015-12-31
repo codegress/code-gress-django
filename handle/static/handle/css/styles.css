@@ -1,6 +1,6 @@
 body{
 	font-family: "Lucida Grande";
-	background-color: #e9eaed;
+	/*background-color: #e9eaed;*/
 }
 .container{
 	
@@ -26,6 +26,7 @@ hr{
 }
 .box-title{
 	padding-top:20px;
+	font-size: 16px;
 }
 .feeds{
 	padding:5px;

@@ -7,18 +7,12 @@
 	<div class="row">
 		<form action="/signup" method="post" role="form" 
 		class="col-md-offset-4 col-md-4 box">{%csrf_token%}
-			<p class="box-title text-danger text-center">Sign up for Codegress</p><hr>
+			<p class="box-title text-danger text-center text-uppercase">Sign up</p><hr>
 			<div class="form-group">
-				<input type="text" name="first_name"  
-				value="{%if fname%}{{fname}}{%endif%}"
-				class="form-control" placeholder="First name"
-				{%if not fname%}autofocus{%endif%}>
-			</div>
-			<div class="form-group">
-				<input type="text" name="last_name"  
-				value="{%if lname%}{{lname}}{%endif%}"
-				class="form-control" placeholder="Last name"
-				{%if not lname%}autofocus{%endif%}>
+				<input type="text" name="handle"  
+				value="{%if handle%}{{handle}}{%endif%}"
+				class="form-control" placeholder="Username"
+				{%if not handle%}autofocus{%endif%}>
 			</div>
 			<div class="form-group">
 				<input type="text" name="email"  
@@ -27,20 +21,8 @@
 				{%if not email%}autofocus{%endif%}>
 			</div>
 			<div class="form-group">
-				<input type="text" name="handle"  
-				value="{%if handle%}{{handle}}{%endif%}"
-				class="form-control" placeholder="Username"
-				{%if not handle%}autofocus{%endif%}>
-			</div>
-			<div class="form-group">
 				<input type="password" name="password" 
 				class="form-control" placeholder="Password">
-			</div>
-			<div class="form-group">
-				<input type="text" name="country"  
-				value="{%if country%}{{country}}{%endif%}"
-				class="form-control" placeholder="Country (e.g. India)"
-				{%if not country%}autofocus{%endif%}>
 			</div>
 			<div class="form-group">
 				<button type="submit" class="btn btn-success form-control" 
