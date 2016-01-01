@@ -76,7 +76,8 @@ def signup(request):
 def check_handle(request):
 	handle = request.POST.get('handle' or None)
 	response = {}
-	if handle:
+	if handle and len(handle) >= 3:
+		response['handle_valid'] = True
 		try:
 			Registration.objects.get(handle=handle)
 			response['handle_registered'] = True
@@ -84,7 +85,30 @@ def check_handle(request):
 		except Registration.DoesNotExist:
 			response['handle_registered'] = False
 	else:
-		response['handle_registered'] = True
+		response['handle_valid'] = False
+	json_data = json.dumps(response)
+	return HttpResponse(json_data,content_type="application/json")
+
+def check_email(request):
+	response = {}
+	if request.method == 'POST':
+		email = request.POST.get('email' or None)
+		try:
+			validate_email(email)
+			response['email_valid'] = True
+		except ValidationError:
+			response['email_valid'] = False
+		try:
+			Registration.objects.get(email=email)
+			response['email_registered'] = True
+		except Registration.DoesNotExist:
+			response['email_registered'] = False
+	json_data = json.dumps(response)
+	print json_data
+	return HttpResponse(json_data,content_type="application/json")
+
+def check_pass(request):
+	response = {}
 	json_data = json.dumps(response)
 	return HttpResponse(json_data,content_type="application/json")
 
@@ -180,6 +204,8 @@ def leaderboard(request,handle):
 	context['signup'] = True
 	try:
 		form = Registration.objects.get(handle=handle)
+		if handle != request.session.get('handle'):
+			context['follow'] = True
 		context['handle'] = handle
 		context['country'] = form.country
 		context['company'] = form.company
@@ -189,7 +215,9 @@ def leaderboard(request,handle):
 		rank = int(random.random()*random.random()*100)
 		if rank != 0:
 			context['rank'] = rank
-			if rank%10 == 1:
+			if rank >= 11 and rank <= 13:
+				context['suffix'] = 'th'
+			elif rank%10 == 1:
 				context['suffix'] = 'st'
 			elif rank%10 == 2:
 				context['suffix'] = 'nd'

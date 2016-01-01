@@ -8,17 +8,29 @@
 		<div class="text-center col-md-4 col-md-offset-4">
 			{%if handle%}
 			<div class="box">
+				{%if rank%}
 				<h4 class="box-title">
-					<p>{{rank}}<sup>{{suffix}}</sup></p>
+					<p>{{rank}}<sup>{{suffix}}</sup> on codegress leaderboard</p>
 				</h4>
+				{%endif%}
+				{%if fname%}
 				<hr>
-				<p><a href="/{{handle}}">
+				<p>
+					<a href="/{{handle}}">
 					<span class="text-primary">{{fname}}</span>
-				</a></p>
+					</a>
+				</p>
+				{%endif%}
+				{%if company%}
 				<p>{{company}}</p>
+				{%endif%}
+				{%if country%}
 				<p>{{country}}</p>
+				{%endif%}
+				{%if website%}
 				<p><a href="{{website}}">{{website}}</a></p>
-				{%if request.session.handle and  request.session.handle != handle%}
+				{%endif%}
+				{%if follow%}
 				<p>
 					<a class="btn btn-default btn-xs" href="{{handle}}/follow">Follow</a>
 				</p>

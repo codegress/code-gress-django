@@ -3,7 +3,7 @@ import datetime
 
 # Create your models here.
 class Registration(models.Model):
-	full_name = models.CharField(max_length=30,null=True)
+	full_name = models.CharField(max_length=30,null=True,blank=True)
 	email = models.EmailField()
 	handle = models.CharField(max_length=20,primary_key=True)
 	password = models.CharField(max_length=30)
