@@ -74,18 +74,21 @@ def signup(request):
 	return render(request,'handle/signup.html',context)
 
 def check_handle(request):
-	handle = request.POST.get('handle' or None)
 	response = {}
-	if handle and len(handle) >= 3:
-		response['handle_valid'] = True
-		try:
-			Registration.objects.get(handle=handle)
-			response['handle_registered'] = True
-			response['info'] = "'"+handle+"' is already taken."
-		except Registration.DoesNotExist:
-			response['handle_registered'] = False
-	else:
-		response['handle_valid'] = False
+	if request.method == 'POST':
+		handle = request.POST.get('handle' or None)
+		if re.match('^[a-zA-Z]{3,}$',handle):
+			response['valid'] = True
+			response['valid_feedback'] = None;
+			try:
+				Registration.objects.get(handle=handle)
+				response['registered'] = True
+				response['reg_feedback'] = "'"+handle+"' is already taken."
+			except Registration.DoesNotExist:
+				response['registered'] = False
+		else:
+			response['valid'] = False
+			response['valid_feedback'] = "Minimum of length 3";
 	json_data = json.dumps(response)
 	return HttpResponse(json_data,content_type="application/json")
 
@@ -95,20 +98,23 @@ def check_email(request):
 		email = request.POST.get('email' or None)
 		try:
 			validate_email(email)
-			response['email_valid'] = True
+			response['valid'] = True
 		except ValidationError:
-			response['email_valid'] = False
+			response['valid'] = False
 		try:
 			Registration.objects.get(email=email)
-			response['email_registered'] = True
+			response['registered'] = True
 		except Registration.DoesNotExist:
-			response['email_registered'] = False
+			response['registered'] = False
 	json_data = json.dumps(response)
 	print json_data
 	return HttpResponse(json_data,content_type="application/json")
 
 def check_pass(request):
 	response = {}
+	if request.method == 'POST':
+		password = request.POST.get('password' or None)
+		response['valid'] = validate_password(password)
 	json_data = json.dumps(response)
 	return HttpResponse(json_data,content_type="application/json")
 
@@ -127,10 +133,7 @@ def validate(handle):
 
 # Password validation ([0-9], [a-zA-Z] and special chars)
 def validate_password(password):
-	num = re.search('[0-9]+',password)
-	char = re.search('[a-zA-Z]+',password)
-	special = re.search('[\!\@\#\$\^\&\*\(\)\~]{1}',password)
-	return num and char and special
+	return re.match('[a-zA-Z]+[0-9]{1,}',password) != None
 
 # Login verfication and session management
 def login(request):
