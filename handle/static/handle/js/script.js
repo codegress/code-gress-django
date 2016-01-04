@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $(".handle-tooltip").tooltip({title: "Profile and more",placement:'bottom'});
-    // $('#privacy-lock').tooltip();
+
     $('#privacy-lock').click(function(e){
         e.preventDefault();
         var lock = $(this).children('span');
@@ -8,42 +8,44 @@ $(document).ready(function(){
             lock.removeClass('glyphicon-eye-close');
             lock.addClass('glyphicon-eye-open');
             $(this).attr({title:'Email Public'});
-            // $(this).tooltip();
         }
         else{
             lock.removeClass('glyphicon-eye-open');
             lock.addClass('glyphicon-eye-close');
-            $(this).attr({title:'Email Private'});   
-            // $(this).tooltip();
+            $(this).attr({title:'Email Private'});
         }
     });
+
+    $('#add-challenge-btn').click(function(e){
+        e.preventDefault();
+    });
+
+    $('#testcase-submit').click(function(e){
+        e.preventDefault();
+        data_to_send = {
+            'input':$('#sample-in').val(),
+            'output':$('#sample-out').val()
+        };
+        url_to_send = '/recent/new/testcase';
+        $("#testcase-modal").modal('hide');
+    });
+
     $('#signup-btn').click(function(e){
     	e.preventDefault();
         var form_groups = $('#signup-form').children('div');
         var validated = {}
-        if(!validated['password']){
-            current_password = {'password':$('#signup-form #password').val()};
-            url_to_send = '/signup/check/pass';
-            var success = function(data){
-                if(data['valid']){
-                    $('#password-group').removeClass('has-warning');
-                    $('#password-feedback').removeClass('glyphicon-warning-sign');
-                    $('#password-group').addClass('has-feedback has-success');
-                    $('#password-feedback').addClass('glyphicon-ok');
-                    $('#password-feedback').removeClass('hide');
-                    validated['password'] = true;
+        if(!hasEmptyFields(form_groups)){
+            if(!validated['password']){
+                current_password = $('#password').val();
+                if(isValidPass(current_password)){
+                    validField('password-group','password-feedback');
+                    validated['password'];
                 }
                 else{
-                    $('#password-group').removeClass('has-success');
-                    $('#password-feedback').removeClass('glyphicon-ok');
-                    $('#password-group').addClass('has-feedback has-warning');
-                    $('#password-feedback').addClass('glyphicon-warning-sign');
-                    $('#password-feedback').removeClass('hide');
+                    invalidField('password-group','password-feedback');
                 }
-            };
-            sendAjaxPost(current_password,url_to_send,success);
-        }
-        if(!hasEmptyFields(form_groups)){
+            }
+
             form_groups.each(function(){
                 var feedback = $(this).find('span');
                 if(feedback.hasClass('glyphicon-ok')){
@@ -51,12 +53,13 @@ $(document).ready(function(){
                     validated[key]=true;
                 }
             });
-            var length = Object.keys(validated).length;
-            if(length == 3){
+            
+            if(validated['handle'] && validated['email'] && validated['password']){
                 $('#signup-form').submit();
             }
         }
     });
+
     function hasEmptyFields(form_groups){
         var empty = false;
         form_groups.each(function(){
@@ -72,72 +75,85 @@ $(document).ready(function(){
         return empty;
     };
 
+    var recent_handles = {}
     $('.form-group #handle').on({
     	keyup:function(){
-            var current_handle = {'handle':$(this).val()};
-    		var url_to_send = '/signup/check/handle';
-            var success = function(data){
-                if(data['valid'] && !data['registered']){
-                    $('#handle-group').removeClass('has-warning');
-                    $('#handle-feedback').removeClass('glyphicon-warning-sign');
-                    $('#handle-group').addClass('has-feedback has-success');
-                    $('#handle-feedback').addClass('glyphicon-ok');
-                    $('#handle-feedback').removeClass('hide');
+            var handle = $(this).val();
+            if(handle.trim().length >= 3 && !recent_handles[handle]){
+                var current_handle = {'handle':handle};
+        		var url_to_send = '/signup/check/handle';
+                var success = function(data){
+                    if(data['handle']){
+                        validField('handle-group','handle-feedback');
+                        recent_handles[handle] = 'available';
+                    }
+                    else{
+                        invalidField('handle-group','handle-feedback');
+                        recent_handles[handle] = 'unavailable';
+                    }
+                };
+                sendAjaxPost(current_handle,url_to_send,success);
+        	}
+            else if(handle){
+                if(recent_handles[handle] == 'available'){
+                    validField('handle-group','handle-feedback');
                 }
                 else{
-                    $('#handle-group').removeClass('has-success');
-                    $('#handle-feedback').removeClass('glyphicon-ok');
-                    $('#handle-group').addClass('has-feedback has-warning');
-                    $('#handle-feedback').addClass('glyphicon-warning-sign');
-                    $('#handle-feedback').removeClass('hide');
+                    invalidField('handle-group','handle-feedback');
                 }
-            };
-            sendAjaxPost(current_handle,url_to_send,success);
-    	},
-        blur:function(){
-            if(!$(this).val()){
-                $('#handle-group').removeClass('has-success');
-                $('#handle-feedback').removeClass('glyphicon-ok');
-                $('#handle-group').addClass('has-feedback has-warning');
-                $('#handle-feedback').addClass('glyphicon-warning-sign');
-                $('#handle-feedback').removeClass('hide');
+            }
+            else if(Object.keys(recent_handles).length != 0){
+                invalidField('handle-group','handle-feedback');
             }
         }
     });
+    
+    function isValidEmail(email){
+        regex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        return regex.test(email);
+    }
+    
+    function isValidPass(password){
+        regex = /^[a-zA-Z0-9]{6,}$/;
+        return regex.test(password);
+    }
+
+    function validField(group_id,feedback_id){
+        $('#'+group_id).removeClass('has-warning');
+        $('#'+feedback_id).removeClass('glyphicon-warning-sign');
+        $('#'+group_id).addClass('has-feedback has-success');
+        $('#'+feedback_id).addClass('glyphicon-ok');
+        $('#'+feedback_id).removeClass('hide');
+    }
+
+    function invalidField(group_id,feedback_id){
+        $('#'+group_id).removeClass('has-success');
+        $('#'+feedback_id).removeClass('glyphicon-ok');
+        $('#'+group_id).addClass('has-feedback has-warning');
+        $('#'+feedback_id).addClass('glyphicon-warning-sign');
+        $('#'+feedback_id).removeClass('hide');
+    }
+
     $('.form-group #email').on({
         blur:function(){
-            var current_email = {'email':$(this).val()};
-            var url_to_send = '/signup/check/email';
-            var success = function(data){
-              if(data['valid'] && !data['registered']){
-                    $('#email-group').removeClass('has-warning');
-                    $('#email-feedback').removeClass('glyphicon-warning-sign');
-                    $('#email-group').addClass('has-feedback has-success');
-                    $('#email-feedback').addClass('glyphicon-ok');
-                    $('#email-feedback').removeClass('hide');
-                }
-                else{
-                    $('#email-group').removeClass('has-success');
-                    $('#email-feedback').removeClass('glyphicon-ok');
-                    $('#email-group').addClass('has-feedback has-warning');
-                    $('#email-feedback').addClass('glyphicon-warning-sign');
-                    $('#email-feedback').removeClass('hide');
-                }  
-            };
-            sendAjaxPost(current_email,url_to_send,success);
+            var email = $(this).val();
+            if(email.trim()){
+                var current_email = {'email':email};
+                var url_to_send = '/signup/check/email';
+                var email_flag = isValidEmail(email);
+                var success = function(data){
+                    if(email_flag && data['email']){
+                        validField('email-group','email-feedback');
+                    }
+                    else{
+                       invalidField('email-group','email-feedback');
+                    }  
+                };
+                sendAjaxPost(current_email,url_to_send,success);
+            }
         }
     });
-    $('.form-group #password').on({
-           blur:function(){
-                if(!$(this).val()){
-                    $('#password-group').removeClass('has-success');
-                    $('#password-feedback').removeClass('glyphicon-ok');
-                    $('#password-group').addClass('has-feedback has-warning');
-                    $('#password-feedback').addClass('glyphicon-warning-sign');
-                    $('#password-feedback').removeClass('hide');
-                }
-            }
-    });
+
     function sendAjaxPost(data_to_send,send_to_url,success_func){
     	$.ajaxSetup({
 		    beforeSend: function(xhr, settings) {
@@ -153,8 +169,17 @@ $(document).ready(function(){
     		success:success_func
     	});
     }
-
-	//CSRF TOKEN FOR POST METHODS
+    
+    function sendAjaxPost(data_to_send,send_to_url,success_func){
+        $.ajax({
+            url:send_to_url,
+            method:'GET',
+            data:data_to_send,
+            success:success_func
+        });
+    }
+	
+    //CSRF TOKEN FOR POST METHODS
 	function getCookie(name) {
 	    var cookieValue = null;
 	    if (document.cookie && document.cookie != '') {

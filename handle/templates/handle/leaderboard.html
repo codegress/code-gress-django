@@ -3,16 +3,18 @@
 {%block title%}{{handle}}'s Leaderboard{%endblock%}
 {%block body%}
 <div class="container">
-	{%include 'handle/header.html'%}
 	<div class="row">
-		<div class="text-center col-md-4 col-md-offset-4">
+		<div class="text-center">
 			{%if handle%}
 			<div class="box">
-				{%if rank%}
 				<div class="box-title">
-					<h1>{{rank}}<sup>{{suffix}}</sup></h1>
-				</div>
+					{{handle}}<hr>
+				{%if rank%}
+					<div class="">
+						<p>{{rank}}<sup>{{suffix}}</sup></p>
+					</div>
 				{%endif%}
+				</div>
 				{%if fname%}
 				<hr>
 				<p>

@@ -4,9 +4,11 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
 from forms import RegistrationForm
-from .models import Registration
+from .models import Registration,Problem,Solution,SampleCase
 import re,random,json
 
+valid_signups = {}
+testcases = []
 # If the user already logged in, redirect him to his page
 def index(request):
 	context = {}
@@ -75,6 +77,7 @@ def signup(request):
 
 def check_handle(request):
 	response = {}
+	global valid_signups
 	if request.method == 'POST':
 		handle = request.POST.get('handle' or None)
 		if re.match('^[a-zA-Z]{3,}$',handle):
@@ -89,33 +92,22 @@ def check_handle(request):
 		else:
 			response['valid'] = False
 			response['valid_feedback'] = "Minimum of length 3";
-	json_data = json.dumps(response)
+	valid_signups['handle'] = response['valid'] and not response['registered']
+	json_data = json.dumps(valid_signups)
 	return HttpResponse(json_data,content_type="application/json")
 
 def check_email(request):
-	response = {}
+	global valid_signups
 	if request.method == 'POST':
 		email = request.POST.get('email' or None)
 		try:
-			validate_email(email)
-			response['valid'] = True
-		except ValidationError:
-			response['valid'] = False
-		try:
 			Registration.objects.get(email=email)
-			response['registered'] = True
+			valid_signups['email'] = False
+			valid_signups['info'] = 'Email already Registered'
 		except Registration.DoesNotExist:
-			response['registered'] = False
-	json_data = json.dumps(response)
-	print json_data
-	return HttpResponse(json_data,content_type="application/json")
-
-def check_pass(request):
-	response = {}
-	if request.method == 'POST':
-		password = request.POST.get('password' or None)
-		response['valid'] = validate_password(password)
-	json_data = json.dumps(response)
+			valid_signups['email'] = True
+			valid_signups['info'] = None
+	json_data = json.dumps(valid_signups)
 	return HttpResponse(json_data,content_type="application/json")
 
 # check for whether username and/or email exists already
@@ -133,7 +125,7 @@ def validate(handle):
 
 # Password validation ([0-9], [a-zA-Z] and special chars)
 def validate_password(password):
-	return re.match('[a-zA-Z]+[0-9]{1,}',password) != None
+	return re.match('([a-zA-Z0-9]{1,})',password) != None
 
 # Login verfication and session management
 def login(request):
@@ -238,9 +230,35 @@ def leaderboard(request,handle):
 		context['error_desc'] = "404 error"
 		return render(request,'handle/404.html',context)
 
-def challenges(request):
-	context = {'error':'Nothing new to display yet..'}
-	return render(request,'handle/codegress.html',context)
+def challenges(request,id):
+	context = {}
+	if request.session.get('handle' or None):
+		if id:
+			try:
+				problem = Problem.objects.get(id=id)
+				context['problem'] = problem
+				return render(request,'handle/challenge.html',context)
+			except Problem.DoesNotExist:
+				pass
+		handle = request.session.get('handle')
+		handle = Registration.objects.get(handle=handle)
+		problems = Problem.objects.filter(handle=handle)
+		context['challenges'] = True
+		context['problems'] = problems
+	else:
+		HttpResponseRedirect('/signin')
+	return render(request,'handle/challenge.html',context)
+
+def new_challenge(request):
+	return render(request,'handle/new_challenge.html')
+
+def testcase(request):
+	if request.is_ajax():
+		sample_in = request.GET.get('input')
+		sample_out = request.GET.get('output')
+		testcases += [{'input':sample_in,'output':sample_out}]
+	json_data = json.dumps(testcases)
+	return HttpResponse(json_data,content_type="application/json")
 
 def competitions(request):
 	context = {'error':'Nothing new to display yet..'}
@@ -251,10 +269,6 @@ def updates(request):
 	return render(request,'handle/codegress.html',context)
 
 def messages(request):
-	context = {'error':'Nothing new to display yet..'}
-	return render(request,'handle/codegress.html',context)
-
-def recent(request):
 	context = {'error':'Nothing new to display yet..'}
 	return render(request,'handle/codegress.html',context)
 

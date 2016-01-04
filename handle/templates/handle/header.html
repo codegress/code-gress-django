@@ -1,5 +1,5 @@
 {%load staticfiles%}
-<div class="page-header">
+<div class="header">
 	<ul class="list-inline row">
 		<li class="col-md-1">
 			<a href="/" class="">
@@ -11,10 +11,10 @@
 			<form action="/search" method="GET" role="form" class="form-horizontal">
 				<div class="form-group">
 					<div class="input-group">
-					<div class="input-group-addon">
-						<span class="glyphicon glyphicon-search"></span>
-					</div>
-						<input class="form-control" type="search" name="q" placeholder="Search for a challenger">
+						<div class="input-group-addon">
+							<span class="glyphicon glyphicon-search"></span>
+						</div>
+							<input class="form-control" type="search" name="q" placeholder="Search for a challenger">
 					</div>				
 				</div>
 			</form>
@@ -41,14 +41,14 @@
 				{%if not login%}col-md-offset-7{%endif%} 
 				{%if login%}col-md-offset-6{%endif%}
 				col-md-1">
-				<a href="/signup" class="btn btn-default">Sign Up</a>
+				<a href="/signup" class="btn btn-default btn-sm">Sign Up</a>
 			</li>
 			{%endif%}
 			{%if login%}
 			<li class="
 				{%if not signup%}col-md-offset-7{%endif%}
 				col-md-1">
-				<a href="/signin" class="btn btn-default">Sign In</a>
+				<a href="/signin" class="btn btn-default btn-sm">Sign In</a>
 			</li>
 			{%endif%}	
 		{%endif%}

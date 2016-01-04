@@ -1,0 +1,42 @@
+{%extends 'handle/base.html'%}
+{%block body%}
+	<div class="container">
+		<div class="row">
+		{%include 'handle/unordered_challenge.html'%}
+		{%if challenges%}
+		<a id="new-challenge" href="new" class="btn btn-default btn-xs">+ New Challenge</a>
+			{%if problems%}
+			<div class="col-md-10 challenges">
+				{%for problem in problems%}
+					<div class="challenge">
+						<ul class="challenge-title list-inline">
+						<li>
+							<span  class="title">
+								{{forloop.counter}}.
+								<a href="{{problem.id}}">
+									{{problem.statement}}
+								</a>
+							</span>
+						</li>
+						<li title="Edit">
+							<span class="glyphicon glyphicon-edit"></span>
+						</li>
+						<li title="Challenge">
+							<span class="glyphicon glyphicon-fire"></span>
+						</li>
+						<li class="pull-right">
+							<a href="">
+								<span class="date">
+									{{problem.created}}	
+								</span>
+							</a>
+						</li>
+						</ul>
+					</div>
+				{%endfor%}
+			</div>
+			{%endif%}
+		{%endif%}
+		</div>
+	</div>
+{%endblock%}

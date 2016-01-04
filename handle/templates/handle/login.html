@@ -3,10 +3,9 @@
 {%block title%}Codegress Login{%endblock%}
 {%block body%}
 <div class="container">
-	{%include 'handle/header.html'%}
 	<div class="row">
 		<form action="/signin" method="post" role="form" 
-			class="col-md-offset-4 col-md-4 box">{%csrf_token%}
+			class="box">{%csrf_token%}
 			<p class="box-title text-danger text-center text-uppercase">Sign in</p><hr>
 			<div class="form-group">
 				<!-- <span>Username or Email</span> -->
@@ -15,7 +14,7 @@
 				{%if not handle or focus%}autofocus{%endif%}>
 			</div>
 			<div class="form-group">
-				<div class="col-md-offset-8">
+				<div class="pull-right">
 					<a href="/recover" tabindex="-1">Forgot Password?</a>
 				</div>
 				<!-- <span>Password</span> -->
@@ -23,7 +22,7 @@
 				placeholder="Password" {%if handle and not focus%}autofocus{%endif%}>
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-success form-control" 
+				<button type="submit" class="btn btn-success btn-sm form-control" 
 				data-disable-with="Signing in…">Sign In</button>
 			</div>
 			{%if error%}

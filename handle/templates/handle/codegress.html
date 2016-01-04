@@ -3,49 +3,43 @@
 {%block body%}
 <div class="container">
 	<div class="row">
-		{%include 'handle/header.html'%}
-		<div class="col-md-2">
-			<ul class="list-group text-center">
-				<li class="list-group-item">
-					<a href="/challenges">Challenges</a>
-				</li>
-				<li class="list-group-item">
-					<a  href="/updates">Updates</a>
-				</li>
-				<li class="list-group-item">
-					<a href="/competitions">Competitons</a>
-				</li>
-				<li class="list-group-item">
-					<a  href="/messages">Messages</a>
-				</li>
-				<li class="list-group-item">
-					<a  href="/recent">Recent Challenges</a>
-				</li>
-			</ul>
-		</div>
-		<div class="col-md-8 feeds">
-			{%if feeds%}
-				{%for feed in feeds%}
-				<div class="feed">
-					<p class="feed-title">
-						Lorem ipsum dolor sit amet - <a href="/{{handle}}">{{handle}}</a>
-					</p>
-					<p class="feed-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat fugit reiciendis nemo laborum consectetur, maxime veritatis eos cum. Vel eveniet, laudantium beatae ab hic iste repudiandae quia modi dolores suscipit?</p>
-					<input type="hidden" value="" name="identify">
-					<a class="btn bg-default btn-xs">Try It Yourself</a>
-					<a class="btn bg-default btn-xs">Challenge</a>
-					<a class="btn bg-default btn-xs">
-						<span class="text-danger">
-							{{forloop.counter}}
-						</span>Comments
-					</a>
-				</div>
-				{%endfor%}
-			{%endif%}
+		{%include 'handle/unordered_challenge.html'%}
+		<div class="text-center">
 			{%if error%}
 				<p class="text-warning text-center">{{error}}</p>
 			{%endif%}
 		</div>
+		{%if feeds%}
+		<div class="col-md-8 feeds">
+			{%for feed in feeds%}
+			<div class="feed">
+				<p class="feed-title">
+					<a class="title" href="">Lorem ipsum dolor sit amet</a>
+					<span class="feed-head col-md-offset-7">
+						<a href="/{{handle}}" class="challenger-image">
+							<img src="{%static 'handle/images/default-handle-img.png'%}" alt="">
+						</a>
+						&nbsp;
+						<span class="glyphicon glyphicon-resize-horizontal"></span>
+						&nbsp;
+						<a href="/{{handle}}" class="challenger-image">
+							<img src="{%static 'handle/images/default-handle-img.png'%}" alt="">
+						</a>
+					</span>
+				</p>
+				<p class="feed-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat fugit reiciendis nemo laborum consectetur, maxime veritatis eos cum. Vel eveniet, laudantium beatae ab hic iste repudiandae quia modi dolores suscipit?</p>
+				<input type="hidden" value="" name="identify">
+				<a class="btn bg-default btn-xs">Try It Yourself</a>
+				<a class="btn bg-default btn-xs">Challenge</a>
+				<a class="btn bg-default btn-xs">
+					<span class="text-danger">
+						{{forloop.counter}}
+					</span>Comments
+				</a>
+			</div>
+			{%endfor%}
+		</div>
+		{%endif%}
 		<div class="col-md-2 graphs">
 			<div class="graph">
 				<p class="graph-title">Graphs<span class="caret"></span></p>

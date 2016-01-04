@@ -18,27 +18,36 @@ class Problem(models.Model):
 	statement = models.CharField(max_length=100)
 	text = models.TextField()
 	category = models.CharField(max_length=100)
-	sample_in_desc = models.TextField(null=True)
-	sample_out_desc = models.TextField(null=True)
+	sample_in_desc = models.TextField(null=True,blank=True)
+	sample_out_desc = models.TextField(null=True,blank=True)
 	note = models.CharField(max_length=200,null=True)
-	sol = models.ForeignKey('Solution',null=True)
-	sample = models.ForeignKey('SampleCase')
+	sol = models.ForeignKey('Solution',null=True,blank=True)
+	sample = models.ManyToManyField('SampleCase',blank=True)
 	handle = models.ForeignKey(Registration)
-	created = models.DateTimeField(auto_now = True)
-	modified = models.DateTimeField(auto_now_add = True)
+	created = models.DateField(auto_now_add = True)
+	modified = models.DateField(auto_now = True)
+
+	def __unicode__(self):
+		return self.statement
 
 class Solution(models.Model):
 	prob = models.ForeignKey(Problem)
 	language = models.CharField(max_length=100)
 	text = models.TextField()
-	time = models.FloatField(null=True)
+	time = models.FloatField(null=True,blank=True)
 	correct = models.BooleanField(default=False)
-	created = models.DateTimeField(auto_now = True)
-	modified = models.DateTimeField(auto_now_add = True)
+	created = models.DateField(auto_now_add = True)
+	modified = models.DateField(auto_now = True)
+
+	def __unicode__(self):
+		return self.prob.statement
 
 class SampleCase(models.Model):
 	prob = models.ForeignKey(Problem)
 	sample_in = models.TextField()
 	sample_out = models.TextField()
-	time = models.FloatField(null=True)
+	time = models.FloatField(null=True,blank=True)
+
+	def __unicode__(self):
+		return self.prob.statement
 
